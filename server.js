@@ -37,6 +37,22 @@ app.get('/logs' , (request, response) =>{
         }
     })
 })
-app.listen(port, function(){
+app.get('/sign', (request, response) => {
+    const body = request.query
+
+    const data = {
+        firstname   : body.firstname,
+        lastname    : body.lastname,
+        username    : body.username,
+        password    : body.password
+    }
+    conn.query("INSERT INTO client_data SET ?", data, (err, result) => {
+        if(err) throw err
+
+        console.log(result)
+        response.send({success: "data saved"})
+    })
+})
+app.listen(port, function() {
     console.log("Listening...")
 })
