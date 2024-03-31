@@ -12,8 +12,12 @@ const conn = mysql.createConnection({
     password: 'U9Bwq5aM2T',
     database: 'sql6695400'
 })
-conn.on('connection', ()=>{
-    console.log("Connected to databse");
+conn.connect((err)=>{
+    if(err){
+        console.log("ERROR: "+ err)
+    }else{
+        console.log("Connected to databse");
+    }
 })
 app.get('/logs' , (request, response) =>{
     const body = request.query
