@@ -19,8 +19,8 @@ conn.connect((err)=>{
         console.log("Connected to databse");
     }
 })
-app.post('/logs' , (request, response) =>{
-    const body = request.body
+app.get('/logs' , (request, response) =>{
+    const body = request.query
     const data = {
         username    : body.username,
         password    : body.password
@@ -37,22 +37,6 @@ app.post('/logs' , (request, response) =>{
         }
     })
 })
-app.post('/sign', (request, response) => {
-    const body = request.query
-
-    const data = {
-        firstname   : body.firstname,
-        lastname    : body.lastname,
-        username    : body.username,
-        password    : body.password
-    }
-    conn.query("INSERT INTO client_data SET ?", data, (err, result) => {
-        if(err) throw err
-
-        console.log(result)
-        response.send({success: "data saved"})
-    })
-})
-app.listen(port, function() {
+app.listen(port, function(){
     console.log("Listening...")
 })
