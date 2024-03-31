@@ -21,6 +21,7 @@ app.get('/logs' , (request, response) =>{
         username    : body.username,
         password    : body.password
     }
+    response.send("hello")
     conn.query('SELECT * FROM client_data', data, (err, result) => {
         const valid = result.find((user) => data.username == user.username && data.password == data.password)
 
