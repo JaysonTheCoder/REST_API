@@ -19,8 +19,8 @@ conn.connect((err)=>{
         console.log("Connected to databse");
     }
 })
-app.get('/logs' , (request, response) =>{
-    const body = request.query
+app.post('/logs' , (request, response) =>{
+    const body = request.body
     const data = {
         username    : body.username,
         password    : body.password
@@ -30,13 +30,15 @@ app.get('/logs' , (request, response) =>{
         const valid = result.find((user) => data.username == user.username && data.password == data.password)
 
         if(!valid){
-            response.send({found: false})
+            response.json({found: false})
+            console.log({found: false})
         }else{
-            response.send({found: true})
+            response.json({found: true})
+            console.log({found: true})
         }
     })
 })
-app.get('/sign', (request, response) => {
+app.post('/sign', (request, response) => {
     const body = request.query
 
     const data = {
