@@ -7,10 +7,10 @@ const port = process.env.PORT||10000
 app.use(express.json())
 
 const conn = mysql.createConnection({
-    host    : 'localhost',
-    user    : 'root',
-    password: 'jayson123',
-    database: 'express cat'
+    host    : 'sql6.freesqldatabase.com',
+    user    : 'sql6695400',
+    password: 'U9Bwq5aM2T',
+    database: 'sql6695400'
 })
 conn.on('connection', ()=>{
     console.log("Connected to databse");
