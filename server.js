@@ -2,8 +2,9 @@
 const express = require('express')
 const mysql = require('mysql')
 const app = express()
+const cors = require('cors')
 const port = process.env.PORT||10000
-
+app.use(cors())
 app.use(express.json())
 
 const conn = mysql.createConnection({
