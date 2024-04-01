@@ -22,8 +22,10 @@ conn.connect((err)=>{
 })
 app.post('/logs' , (request, response) =>{
     const body = request.body
-    
-    if(body.isFromLogin){
+    const data = {
+        username    : body.username,
+        password    : body.password
+    }
         conn.query('SELECT * FROM client_data', data, (err, result) => {
             const valid = result.find((user) => data.username == user.username && data.password == data.password)
     
@@ -36,20 +38,7 @@ app.post('/logs' , (request, response) =>{
                 console.log({found: true})
             }
         })
-    }else if(body.isFromSignin){
-        const data = {
-            firstname   : body.firstname,
-            lastname    : body.lastname,
-            username    : body.usuername,
-            password    : body.password
-        }
-        conn.query("INSERT INTO client_data SET ?", data, (err, result) => {
-            if(err) throw err
     
-            console.log(result)
-            response.send({success: "data saved"})
-        })
-    }
     
 })
 
