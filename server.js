@@ -27,7 +27,7 @@ app.post('/logs' , (request, response) =>{
         password    : body.password
     }
         conn.query('SELECT * FROM client_data', data, (err, result) => {
-            const valid = result.find((user) => data.username == user.username && data.password == data.password)
+            const valid = result.find((user) => data.username == user.username && data.password == user.password)
     
             if(!valid){
                 response.json({found: false})
