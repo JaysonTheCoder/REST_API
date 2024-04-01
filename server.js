@@ -22,39 +22,37 @@ conn.connect((err)=>{
 })
 app.post('/logs' , (request, response) =>{
     const body = request.body
-    const data = {
-        username    : body.username,
-        password    : body.password
-    }
-    conn.query('SELECT * FROM client_data', data, (err, result) => {
-        const valid = result.find((user) => data.username == user.username && data.password == data.password)
-
-        if(!valid){
-            response.json({found: false})
-            console.log({found: false})
-        }else{
-            response.json({found: true})
-            response.send({found: true})
-            console.log({found: true})
+    
+    if(body.isFromLogin){
+        conn.query('SELECT * FROM client_data', data, (err, result) => {
+            const valid = result.find((user) => data.username == user.username && data.password == data.password)
+    
+            if(!valid){
+                response.json({found: false})
+                console.log({found: false})
+            }else{
+                response.json({found: true})
+                response.send({found: true})
+                console.log({found: true})
+            }
+        })
+    }else if(body.isFromSignin){
+        const data = {
+            firstname   : body.firstname,
+            lastname    : body.lastname,
+            username    : body.usuername,
+            password    : body.password
         }
-    })
-})
-app.post('/sign', (request, response) => {
-    const body = request.body
-
-    const data = {
-        firstname   : body.firstname,
-        lastname    : body.lastname,
-        username    : body.username,
-        password    : body.password
+        conn.query("INSERT INTO client_data SET ?", data, (err, result) => {
+            if(err) throw err
+    
+            console.log(result)
+            response.send({success: "data saved"})
+        })
     }
-    conn.query("INSERT INTO client_data SET ?", data, (err, result) => {
-        if(err) throw err
-
-        console.log(result)
-        response.send({success: "data saved"})
-    })
+    
 })
+
 app.listen(port, function() {
     console.log("Listening...")
 })
