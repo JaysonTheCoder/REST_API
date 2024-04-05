@@ -20,7 +20,7 @@ conn.connect((err)=>{
         console.log("Connected to databse");
     }
 })
-app.post('/logs/:type' , (request, response) =>{
+app.post('/:type' , (request, response) =>{
     const type = request.params.type
 
     if(type == 'logs') {
