@@ -41,7 +41,28 @@ app.post('/logs' , (request, response) =>{
     
     
 })
-
+app.post('/api/data', (request, response) => {
+    const { countPassenger, latitude, longitude, MarkerIcon, hasData} = request.body
+    const data = {
+        lat     : latitude,
+        lng     : longitude,
+        countPassenger : countPassenger,
+        MarkerIcon     : MarkerIcon,
+        hasContent     : function() {
+            if(hasData != null || hasData != undefined) {
+                return true
+            }else return false
+        }
+    }
+    if(!data.hasContent){
+        response.status(404).json(data.hasContent)
+        console.log('Data Not Found')
+    }else if(data.hasContent){
+        response.status(200).json(data)
+        console.log('Data Not Found')
+    }
+    
+})
 app.listen(port, function() {
     console.log("Listening...")
 })
