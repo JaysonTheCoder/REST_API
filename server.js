@@ -20,12 +20,15 @@ conn.connect((err)=>{
         console.log("Connected to databse");
     }
 })
-app.post('/logs' , (request, response) =>{
-    const body = request.body
-    const data = {
-        username    : body.username,
-        password    : body.password
-    }
+app.post('/logs/:type' , (request, response) =>{
+    const type = request.params.type
+
+    if(type == 'logs') {
+        const body = request.body
+        const data = {
+            username    : body.username,
+            password    : body.password
+        }
         conn.query('SELECT * FROM client_data', data, (err, result) => {
             const valid = result.find((user) => data.username == user.username && data.password == user.password)
     
@@ -40,11 +43,9 @@ app.post('/logs' , (request, response) =>{
         })
     
     
-})
-app.post('/api/data', (request, response) => {
-    response.json({"working": true})
-    const { countPassenger, latitude, longitude, MarkerIcon, hasData} = request.body
-    const data = {
+    }else if(type == 'api') {
+        const { countPassenger, latitude, longitude, MarkerIcon, hasData} = request.body
+        const data = {
         lat     : latitude,
         lng     : longitude,
         countPassenger : countPassenger,
@@ -61,6 +62,8 @@ app.post('/api/data', (request, response) => {
     }else if(data.hasContent){
         response.status(200).json(data)
         console.log('Data Not Found')
+    }
+    
     }
     
 })
