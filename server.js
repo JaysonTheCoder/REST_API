@@ -22,7 +22,7 @@ conn.connect((err)=>{
 })
 app.post('/:type' , (request, response) =>{
     const type = request.params.type
-
+    response.send("ahjsgda")
     if(type == 'logs') {
         const body = request.body
         const data = {
