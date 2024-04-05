@@ -42,6 +42,7 @@ app.post('/logs' , (request, response) =>{
     
 })
 app.post('/api/data', (request, response) => {
+    response.json({"working": true})
     const { countPassenger, latitude, longitude, MarkerIcon, hasData} = request.body
     const data = {
         lat     : latitude,
