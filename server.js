@@ -6,9 +6,9 @@ const cors = require('cors')
 
 const port = process.env.PORT||10000
 
-
+app.use(cors())
 app.use(express.json())
-app.use(cors({origin: 'http://localhost:3000'}))
+
 const conn = mysql.createConnection({
     host    : 'sql6.freesqldatabase.com',
     user    : 'sql6695400',
@@ -19,34 +19,42 @@ const conn = mysql.createConnection({
 conn.connect((err)=>{
     if(err){
         console.log("ERROR: "+ err)
-        hasError = true
-    }else{
-        console.log("Connected to databse");
+        return
     }
+        
+    console.log("Connected to database");
+    
 })
 
-app.post('/logs' , (request, response) =>{
-    const body = request.body
-
+app.post('/logs', (request, response) => {
+    const body = request.body;
+  
     const data = {
-        username    : body.username,
-        password    : body.password,
-        
-    }
-    conn.query('SELECT * FROM client_data', data, (err, result) => {
-        const valid = result.find((user) => data.username == user.username && data.password == user.password)
-
-        if(!valid){
-            response.send(data)
-        }else{
-            response.json(data)
-            response.send(data)
-            console.log(data)
-        }
-    })
-
-
-    })
+      username: body.username,
+      password: body.password,
+    };
+  
+    // Execute the query and handle the response in a single callback
+    conn.query('SELECT * FROM client_data', (err, result) => {
+      if (err) {
+        // Handle errors appropriately, e.g., log the error and send a specific error response
+        console.error(err);
+        return response.status(500).send({ error: 'Internal Server Error' });
+      }
+  
+      const valid = result.find((user) => user.username === data.username && user.password === data.password);
+  
+      if (!valid) {
+        // User not found, send appropriate response
+        return response.send({ message: 'Invalid username or password' });
+      } else {
+        // User found, send success response (remove duplicate send)
+        response.json({ message: 'Login successful' });
+        console.log(data); // Log data after successful login
+      }
+    });
+  });
+  
 app.listen(port, function() {
     console.log("Listening...")
 })
