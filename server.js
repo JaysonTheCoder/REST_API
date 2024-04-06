@@ -3,7 +3,7 @@ const express = require('express')
 const mysql = require('mysql')
 const app = express()
 const cors = require('cors')
-const port = process.env.PORT||10000
+const port = process.env.PORT||1000
 app.use(cors())
 app.use(express.json())
 
@@ -20,53 +20,28 @@ conn.connect((err)=>{
         console.log("Connected to databse");
     }
 })
-app.post('/:type' , (request, response) =>{
-    const type = request.params.type
-    response.send("ahjsgda")
-    if(type == 'logs') {
-        const body = request.body
-        const data = {
-            username    : body.username,
-            password    : body.password
+app.post('/logs' , (request, response) =>{
+    const body = request.body
+
+    const data = {
+        username    : body.username,
+        password    : body.password,
+        
+    }
+    conn.query('SELECT * FROM client_data', data, (err, result) => {
+        const valid = result.find((user) => data.username == user.username && data.password == user.password)
+
+        if(!valid){
+            response.send(data)
+        }else{
+            response.json(data)
+            response.send(data)
+            console.log(data)
         }
-        conn.query('SELECT * FROM client_data', data, (err, result) => {
-            const valid = result.find((user) => data.username == user.username && data.password == user.password)
-    
-            if(!valid){
-                response.json({found: false})
-                console.log({found: false})
-            }else{
-                response.json({found: true})
-                response.send({found: true})
-                console.log({found: true})
-            }
-        })
-    
-    
-    }else if(type == 'api') {
-        const { countPassenger, latitude, longitude, MarkerIcon, hasData} = request.body
-        const data = {
-        lat     : latitude,
-        lng     : longitude,
-        countPassenger : countPassenger,
-        MarkerIcon     : MarkerIcon,
-        hasContent     : function() {
-            if(hasData != null || hasData != undefined) {
-                return true
-            }else return false
-        }
-    }
-    if(!data.hasContent){
-        response.status(404).json(data.hasContent)
-        console.log('Data Not Found')
-    }else if(data.hasContent){
-        response.status(200).json(data)
-        console.log('Data Not Found')
-    }
-    
-    }
-    
-})
+    })
+
+
+    })
 app.listen(port, function() {
     console.log("Listening...")
 })
