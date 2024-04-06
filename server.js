@@ -8,7 +8,7 @@ const port = process.env.PORT||10000
 
 
 app.use(express.json())
-app.use(cors())
+app.use(cors({origin: 'http://localhost:3000'}))
 const conn = mysql.createConnection({
     host    : 'sql6.freesqldatabase.com',
     user    : 'sql6695400',
