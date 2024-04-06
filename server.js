@@ -46,10 +46,10 @@ app.post('/logs', (request, response) => {
   
       if (!valid) {
         // User not found, send appropriate response
-        return response.send({ message: 'Invalid username or password' });
+        return response.send({ found: false });
       } else {
         // User found, send success response (remove duplicate send)
-        response.json({ message: 'Login successful' });
+        response.json({ found: true });
         console.log(data); // Log data after successful login
       }
     });
