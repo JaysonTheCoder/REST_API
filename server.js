@@ -3,7 +3,9 @@ const express = require('express')
 const mysql = require('mysql')
 const app = express()
 const cors = require('cors')
-const port = process.env.PORT||1000
+
+const port = process.env.PORT||10000
+
 app.use(cors())
 app.use(express.json())
 
@@ -13,16 +15,19 @@ const conn = mysql.createConnection({
     password: 'U9Bwq5aM2T',
     database: 'sql6695400'
 })
+
 conn.connect((err)=>{
     if(err){
         console.log("ERROR: "+ err)
+        hasError = true
     }else{
         console.log("Connected to databse");
     }
 })
+
 app.post('/logs' , (request, response) =>{
     const body = request.body
-
+    response.json({"found": true})
     const data = {
         username    : body.username,
         password    : body.password,
