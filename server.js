@@ -6,9 +6,9 @@ const cors = require('cors')
 
 const port = process.env.PORT||10000
 
-app.use(cors())
-app.use(express.json())
 
+app.use(express.json())
+app.use(cors())
 const conn = mysql.createConnection({
     host    : 'sql6.freesqldatabase.com',
     user    : 'sql6695400',
@@ -27,7 +27,7 @@ conn.connect((err)=>{
 
 app.post('/logs' , (request, response) =>{
     const body = request.body
-    response.json({"found": true})
+
     const data = {
         username    : body.username,
         password    : body.password,
