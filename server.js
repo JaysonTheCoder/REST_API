@@ -11,9 +11,9 @@ app.use(express.json())
 
 const conn = mysql.createConnection({
     host    : 'sql6.freesqldatabase.com',
-    user    : 'sql6695400',
-    password: 'U9Bwq5aM2T',
-    database: 'sql6695400'
+    user    : 'sql6697319',
+    password: 'Mxx3f2MS2R',
+    database: 'sql6697319'
 })
 
 conn.connect((err)=>{
@@ -50,6 +50,7 @@ app.post('/logs', (request, response) => {
       } else {
         // User found, send success response (remove duplicate send)
         response.json({ found: true });
+        response.send(body)
         console.log(data); // Log data after successful login
       }
     });
