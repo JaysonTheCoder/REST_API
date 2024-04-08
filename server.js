@@ -9,19 +9,19 @@ const port = process.env.PORT||10000
 app.use(cors())
 app.use(express.json())
 
-// const conn = mysql.createConnection({
-//     host    : 'sql6.freesqldatabase.com',
-//     user    : 'sql6697319',
-//     password: 'Mxx3f2MS2R',
-//     database: 'sql6697319'
-// })
-
-const connection = mysql.createConnection({
-  host : 'localhost',
-  user : 'root',
-  password: 'jayson123',
-  database : 'express cat'
+const conn = mysql.createConnection({
+    host    : 'sql6.freesqldatabase.com',
+    user    : 'sql6697319',
+    password: 'Mxx3f2MS2R',
+    database: 'sql6697319'
 })
+
+// const connection = mysql.createConnection({
+//   host : 'localhost',
+//   user : 'root',
+//   password: 'jayson123',
+//   database : 'express cat'
+// })
 conn.connect((err)=>{
     if(err){
         console.log("ERROR: "+ err)
